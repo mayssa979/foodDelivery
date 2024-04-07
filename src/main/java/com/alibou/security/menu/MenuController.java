@@ -8,12 +8,13 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/menu")
+@CrossOrigin(origins = "http://localhost:4200")
 public class MenuController {
     @Autowired
     private MenuService service;
 
     @PostMapping("/addMenu")
-    public Menu addMenu(@RequestBody Menu menu){
+    public String addMenu(@RequestBody Menu menu){
         return service.saveMenu(menu);
     }
 
@@ -22,8 +23,8 @@ public class MenuController {
         return service.saveMenus(menus);
     }
 
-    @GetMapping
-    public List<Menu> findAllProducts(){
+    @GetMapping("/get")
+    public List<Menu> findAllMenus(){
         return service.getMenus();
     }
 
@@ -32,7 +33,7 @@ public class MenuController {
         return service.getMenuById(id);
     }
 
-    @GetMapping("/menu/{name}")
+    @GetMapping("/{name}")
     public Optional<Menu> findMenuByName(@PathVariable String name){
         return service.getMenuByName(name);
     }

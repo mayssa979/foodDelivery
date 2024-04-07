@@ -1,5 +1,6 @@
 package com.alibou.security.menu;
 
+import com.alibou.security.restaurant.Restaurant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +14,11 @@ public class MenuService {
 
 
 
-    public Menu saveMenu(Menu menu) {
-                return repository.save(menu);
-            }
+    public String saveMenu(Menu menu) {
+
+        repository.save(menu);
+        return "Menu added successufully!";
+    }
 
 
 
@@ -50,7 +53,9 @@ public class MenuService {
             return "Menu with ID: "+id+" does not exist!!";
         }
     }
-
+public List<Menu> findMenusByRestaurantId(int restaurantId) {
+    return repository.findByRestaurantId(restaurantId);
+}
 
     public String updateMenu(Menu menu) {
         Menu existingMenu = repository.findById(menu.getId()).orElse(null);
@@ -60,7 +65,6 @@ public class MenuService {
         repository.save(existingMenu);
             return "Menu updated ! ";
         }
-
 
 
 }

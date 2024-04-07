@@ -20,3 +20,7 @@ application:
       expiration: 86400000 # a day
       refresh-token:
         expiration: 604800000 # 7 days
+## front end
+frontend:
+  host: localhost
+  port: 4200

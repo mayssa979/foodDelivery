@@ -2,6 +2,8 @@ package com.alibou.security.menu;
 
 
 import com.alibou.security.restaurant.Restaurant;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,5 +29,10 @@ public class Menu {
     @ManyToOne
     @JoinColumn(name = "restaurant_id" , referencedColumnName = "id")
     private Restaurant restaurant;
+
+    @Override
+    public String toString() {
+        return "Menu{id=" + id + ", name='" + name + "', price=" + price + "}";
+    }
 
 }

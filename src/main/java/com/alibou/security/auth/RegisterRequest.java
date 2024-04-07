@@ -19,4 +19,5 @@ public class RegisterRequest {
   private long phoneNumber;
   private String password;
   private Role role;
+
 }

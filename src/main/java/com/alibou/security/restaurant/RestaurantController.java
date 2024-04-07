@@ -5,30 +5,22 @@ import com.alibou.security.menu.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/restaurants")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
 public class RestaurantController {
-
+    @Autowired
     private final RestaurantService service;
     @Autowired
     private MenuService menuSer;
 
-  /*  @PostMapping
-    public ResponseEntity<?> save(
-            @RequestBody RestaurantRequest request
-    ) {
-        service.save(request);
-        return ResponseEntity.accepted().build();
-    }*/
+
     @PostMapping
     public String addRestaurant(@RequestBody Restaurant restaurant){
          service.save(restaurant);
@@ -38,9 +30,24 @@ public class RestaurantController {
          }
          return "restaurant added successufully!";
     }
-
     @GetMapping
-    public ResponseEntity<List<Restaurant>> findAllRestaurantss() {
+    public ResponseEntity<List<Restaurant>> findAllRestau() {
+        System.out.println(service.findAll());
         return ResponseEntity.ok(service.findAll());
+    }
+
+    @GetMapping("/getRestaurant/{id}")
+    public Restaurant findRestaurant(@PathVariable int id) {
+        return service.findRestaurant(id);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteRestaurant(@PathVariable int id) {
+        return service.deleteRestaurant(id);
+    }
+
+    @PutMapping("/update")
+    public String updateMenu(@RequestBody Restaurant restau) {
+        return service.updateRestau(restau);
     }
 }

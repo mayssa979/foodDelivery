@@ -48,7 +48,8 @@ public class SecurityConfiguration {
             "/swagger-ui.html",
             "/api/v1/restaurants/**",
             "/menu/**",
-            "/commands/**"};
+            "/commands/**",
+            "/users/**"};
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;
@@ -81,3 +82,31 @@ public class SecurityConfiguration {
         return http.build();
     }
 }
+/*@Bean
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http
+            .csrf(AbstractHttpConfigurer::disable)
+            .authorizeHttpRequests(req ->
+                    req.requestMatchers(WHITE_LIST_URL)
+                            .permitAll()
+                            .requestMatchers("/api/v1/restaurants/**").hasAnyRole(ADMIN.name(), CLIENT.name())
+                            .requestMatchers(GET, "/api/v1/restaurants/**").hasAnyAuthority(ADMIN_READ.name(), CLIENT_READ.name())
+                            .requestMatchers(POST, "/api/v1/restaurants/**").hasAnyAuthority(ADMIN_CREATE.name(), CLIENT_CREATE.name())
+                            .requestMatchers(PUT, "/api/v1/restaurants/**").hasAnyAuthority(ADMIN_UPDATE.name(), CLIENT_UPDATE.name())
+                            .requestMatchers(DELETE, "/api/v1/restaurants/**").hasAnyAuthority(ADMIN_DELETE.name(), CLIENT_DELETE.name())
+                            .anyRequest()
+                            .authenticated()
+            )
+            .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+            .authenticationProvider(authenticationProvider)
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+            .logout(logout ->
+                    logout.logoutUrl("/api/v1/auth/logout")
+                            .addLogoutHandler(logoutHandler)
+                            .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
+            )
+    ;
+
+    return http.build();
+}
+}*/
