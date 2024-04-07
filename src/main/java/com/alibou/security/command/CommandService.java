@@ -10,6 +10,7 @@ import java.util.Optional;
 import com.alibou.security.commandLine.CommandLine;
 import com.alibou.security.commandLine.CommandLineRepository;
 import com.alibou.security.commandLine.CommandLineService;
+import com.alibou.security.menu.Menu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -67,6 +68,10 @@ public class CommandService {
     public String deleteCommand(Long id) {
         Optional<Command> optionalCommand = cmdRepository.findById(id);
         if ( optionalCommand.isPresent()) {
+            List<CommandLine> lines = cmdLineRepository.findByCommandId(optionalCommand.get().getId());
+            for(CommandLine line : lines){
+                cmdLineRepository.deleteById(line.getId());
+            }
             cmdRepository.deleteById(id);
             return "Deleted command with ID:"+id;
         }

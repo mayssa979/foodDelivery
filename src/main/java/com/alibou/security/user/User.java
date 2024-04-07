@@ -1,13 +1,10 @@
 package com.alibou.security.user;
 
+import com.alibou.security.command.Command;
 import com.alibou.security.token.Token;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -38,9 +35,14 @@ public class User implements UserDetails {
 
   @Enumerated(EnumType.STRING)
   private Role role;
-
+  @JsonIgnore
   @OneToMany(mappedBy = "user")
   private List<Token> tokens;
+
+
+  @JsonIgnore
+  @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
+  private List<Command> commands;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -76,4 +78,10 @@ public class User implements UserDetails {
   public boolean isEnabled() {
     return true;
   }
+
+  @Override
+  public String toString() {
+    return "user{id=" + id + ", firstname='" + firstname + "', lastname=" + lastname + ", email='"+email+"}";
+  }
+
 }
