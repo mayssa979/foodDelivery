@@ -2,8 +2,15 @@ package com.alibou.security.menu;
 
 import com.alibou.security.restaurant.Restaurant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,10 +68,25 @@ public List<Menu> findMenusByRestaurantId(int restaurantId) {
         Menu existingMenu = repository.findById(menu.getId()).orElse(null);
         existingMenu.setName(menu.getName());
         existingMenu.setPrice(menu.getPrice());
-        existingMenu.setImgUrl(menu.getImgUrl());
+        existingMenu.setImg(menu.getImg());
         repository.save(existingMenu);
             return "Menu updated ! ";
         }
+//////////////////////////////////////////////////////////
 
+    public void saveMenuWithImage(MultipartFile file, Menu menu){
+
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        if(fileName.contains("..")){
+            System.out.println("not a valid file!");
+        }
+        try {
+            menu.setImg(Base64.getEncoder().encodeToString(file.getBytes()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        repository.save(menu);
+
+    }
 
 }

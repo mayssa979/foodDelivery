@@ -4,9 +4,11 @@ import com.alibou.security.menu.Menu;
 import com.alibou.security.menu.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -49,5 +51,12 @@ public class RestaurantController {
     @PutMapping("/update")
     public String updateMenu(@RequestBody Restaurant restau) {
         return service.updateRestau(restau);
+    }
+
+    @PostMapping(value="/add/restau",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String saveWithImg(@RequestPart("restaurant") Restaurant restaurant,
+                              @RequestPart("file") MultipartFile file){
+        service.saveRestaurantWithImage(file, restaurant);
+        return "Restaurant saved with success !";
     }
 }

@@ -6,8 +6,12 @@ import com.alibou.security.menu.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,12 +74,32 @@ public class RestaurantService {
                 if (menu.getId().equals(updatedMenu.getId())) {
                     menu.setName(updatedMenu.getName());
                     menu.setPrice(updatedMenu.getPrice());
-                    menu.setImgUrl(updatedMenu.getImgUrl());
+                    menu.setImg(updatedMenu.getImg());
                     menuRepository.save(menu); // Save each updated menu
                 }
             }
         }
         repository.save(existingRestau);
         return "Restaurant updated ! ";
+    }
+
+
+
+
+
+    ///////////////////////////////////////////////////////////
+    public void saveRestaurantWithImage(MultipartFile file, Restaurant restau){
+
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        if(fileName.contains("..")){
+            System.out.println("not a valid file!");
+        }
+        try {
+            restau.setLogo(Base64.getEncoder().encodeToString(file.getBytes()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        repository.save(restau);
+
     }
 }

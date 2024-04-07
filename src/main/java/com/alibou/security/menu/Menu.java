@@ -23,12 +23,16 @@ public class Menu {
 
     private String name;
     private double price;
-    private String imgUrl;
+    @Lob
+    @Column(columnDefinition = "MEDIUMBLOB")
+    private String img;
    // private int quantity;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id" , referencedColumnName = "id")
     private Restaurant restaurant;
+
+
 
     @Override
     public String toString() {
