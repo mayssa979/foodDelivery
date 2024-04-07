@@ -56,7 +56,12 @@ public class RestaurantController {
     @PostMapping(value="/add/restau",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String saveWithImg(@RequestPart("restaurant") Restaurant restaurant,
                               @RequestPart("file") MultipartFile file){
+
         service.saveRestaurantWithImage(file, restaurant);
+        for(Menu menu : restaurant.getMenus()){
+            menu.setRestaurant(restaurant);
+            menuSer.saveMenu(menu);
+        }
         return "Restaurant saved with success !";
     }
 }

@@ -88,18 +88,18 @@ public class RestaurantService {
 
 
     ///////////////////////////////////////////////////////////
-    public void saveRestaurantWithImage(MultipartFile file, Restaurant restau){
+    public void saveRestaurantWithImage(MultipartFile file, Restaurant restaurant){
 
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         if(fileName.contains("..")){
             System.out.println("not a valid file!");
         }
         try {
-            restau.setLogo(Base64.getEncoder().encodeToString(file.getBytes()));
+            restaurant.setLogo(Base64.getEncoder().encodeToString(file.getBytes()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        repository.save(restau);
+        repository.save(restaurant);
 
     }
 }
