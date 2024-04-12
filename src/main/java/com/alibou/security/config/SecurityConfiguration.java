@@ -49,7 +49,8 @@ public class SecurityConfiguration {
             "/api/v1/restaurants/**",
             "/menu/**",
             "/commands/**",
-            "/users/**"};
+            "/users/**",
+            "/email/**"};
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;
