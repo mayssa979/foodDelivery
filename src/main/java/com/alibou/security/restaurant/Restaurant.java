@@ -32,7 +32,7 @@ public class Restaurant {
     private String name;
     @Lob
     @Column(columnDefinition = "MEDIUMBLOB")
-    private String logo;
+    private String image;
     @OneToMany(mappedBy="restaurant", cascade = CascadeType.MERGE)
     @JsonIgnoreProperties(value = {"restaurant", "handler","hibernateLazyInitializer"}, allowSetters = true)
     private List<Menu> menus ;

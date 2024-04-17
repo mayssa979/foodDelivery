@@ -50,7 +50,8 @@ public class SecurityConfiguration {
             "/menu/**",
             "/commands/**",
             "/users/**",
-            "/email/**"};
+            "/email/**",
+            "delivery/**"};
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;

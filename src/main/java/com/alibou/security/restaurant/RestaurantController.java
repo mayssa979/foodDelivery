@@ -42,6 +42,10 @@ public class RestaurantController {
     public Restaurant findRestaurant(@PathVariable int id) {
         return service.findRestaurant(id);
     }
+    @GetMapping("/getMenus/{id}")
+    public List<Menu> findMenusByRestaurant(@PathVariable int id) {
+        return service.findMenusByRestaurantId(id);
+    }
 
     @DeleteMapping("/delete/{id}")
     public String deleteRestaurant(@PathVariable int id) {
@@ -63,5 +67,13 @@ public class RestaurantController {
             menuSer.saveMenu(menu);
         }
         return "Restaurant saved with success !";
+    }
+    /////////////////////////////////////////////////////
+    @PostMapping("/saveWithImageAndMenus")
+    public void saveRestaurantWithImageAndMenus(@RequestPart("restaurantImage") MultipartFile restaurantImage,
+                                                @RequestPart("restaurant") Restaurant restaurant,
+                                                @RequestPart("menuImages") List<MultipartFile> menuImages,
+                                                @RequestPart("menus") List<Menu> menus) {
+        service.saveRestaurantWithImageAndMenus(restaurantImage, restaurant, menuImages, menus);
     }
 }

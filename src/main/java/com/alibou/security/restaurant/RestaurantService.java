@@ -67,7 +67,7 @@ public class RestaurantService {
         Restaurant existingRestau = repository.findById(restau.getId()).orElse(null);
         existingRestau.setName(restau.getName());
         existingRestau.setPlace(restau.getPlace());
-        existingRestau.setLogo(restau.getLogo());
+        existingRestau.setImage(restau.getImage());
         List<Menu> existingMenus = menuRepository.findByRestaurantId(existingRestau.getId());
         for (Menu menu : existingMenus) {
             for (Menu updatedMenu : restau.getMenus()) {
@@ -84,6 +84,10 @@ public class RestaurantService {
     }
 
 
+    public List<Menu> findMenusByRestaurantId(int id) {
+        Restaurant existingRestau = repository.findById(id).orElse(null);
+        return existingRestau.getMenus();
+    }
 
 
 
@@ -95,11 +99,32 @@ public class RestaurantService {
             System.out.println("not a valid file!");
         }
         try {
-            restaurant.setLogo(Base64.getEncoder().encodeToString(file.getBytes()));
+            restaurant.setImage(Base64.getEncoder().encodeToString(file.getBytes()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         repository.save(restaurant);
 
+    }
+    //////////////////////////////////////
+    public void saveRestaurantWithImageAndMenus(MultipartFile restaurantImage, Restaurant restaurant, List<MultipartFile> menuImages, List<Menu> menus) {
+        try {
+            // Save restaurant image
+            restaurant.setImage(Base64.getEncoder().encodeToString(restaurantImage.getBytes()));
+
+            // Save restaurant
+            Restaurant savedRestaurant = repository.save(restaurant);
+
+            // Save menus with images
+            for (int i = 0; i < menuImages.size(); i++) {
+                MultipartFile menuImage = menuImages.get(i);
+                Menu menu = menus.get(i);
+                menu.setImg(Base64.getEncoder().encodeToString(menuImage.getBytes()));
+                menu.setRestaurant(savedRestaurant);
+                menuRepository.save(menu);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Error saving images: " + e.getMessage());
+        }
     }
 }
