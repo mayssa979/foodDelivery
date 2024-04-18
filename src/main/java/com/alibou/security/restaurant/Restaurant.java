@@ -29,6 +29,8 @@ public class Restaurant {
     @GeneratedValue
     private Integer id;
     private String place;
+    private double longitude;
+    private double latitude;
     private String name;
     @Lob
     @Column(columnDefinition = "MEDIUMBLOB")

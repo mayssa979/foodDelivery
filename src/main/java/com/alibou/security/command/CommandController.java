@@ -31,7 +31,6 @@ public class CommandController {
             somme+=cmdLine.getPrix();
 
         }
-       // System.out.println("testttt"+ somme);
         command.setPrixCmd(somme);
         commandService.saveCmd(command);
 

@@ -89,7 +89,11 @@ public class RestaurantService {
         return existingRestau.getMenus();
     }
 
-
+    public Location findLocation(int id) {
+        Restaurant existingRestau = repository.findById(id).orElse(null);
+        Location loc =new Location(existingRestau.getLongitude(), existingRestau.getLatitude());
+        return loc;
+    }
 
     ///////////////////////////////////////////////////////////
     public void saveRestaurantWithImage(MultipartFile file, Restaurant restaurant){

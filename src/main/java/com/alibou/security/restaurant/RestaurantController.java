@@ -47,6 +47,12 @@ public class RestaurantController {
         return service.findMenusByRestaurantId(id);
     }
 
+
+    @GetMapping("/getLocation/{id}")
+    public Location findLocation(@PathVariable int id) {
+        return service.findLocation(id);
+    }
+
     @DeleteMapping("/delete/{id}")
     public String deleteRestaurant(@PathVariable int id) {
         return service.deleteRestaurant(id);
